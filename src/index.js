@@ -5,26 +5,25 @@ import WeatherService from './weather-service.js';
 
 // Business Logic
 
-function getWeather(city) {
-  WeatherService.getWeather(city)
-    .then(function (response) {
-      if (response.main) {
-        printElements(response, city);
-      } else {
-        printError(response, city);
-      }
-    });
+async function getWeather(city) {
+  const response = await WeatherService.getWeather(city);
+  if (response.main) {
+    printElements(response, city);
+  } else {
+    printError(response, city);
+  }
 }
+
 // UI Logic
 
 function printElements(response, city) {
-  // console.log("In printElements:", results);
   document.querySelector('#showResponse').innerText = `The humidity in ${city} is ${response.main.humidity}%.
   The temperature in Kelvins is ${response.main.temp} degrees.`;
 }
 
 function printError(error, city) {
-  document.querySelector('#showResponse').innerText = `There was an error accessing the weather data for ${city}: ${error}.`;
+  document.querySelector('#showResponse').innerText = `There was an error accessing the weather data for ${city}: 
+  ${error}.`;
 }
 
 function handleFormSubmission(event) {
@@ -34,7 +33,7 @@ function handleFormSubmission(event) {
   getWeather(city);
 }
 
-window.addEventListener("load", function () {
+window.addEventListener("load", function() {
   document.querySelector('form').addEventListener("submit", handleFormSubmission);
 });
 // git remote set-url origin https://new.url.here
